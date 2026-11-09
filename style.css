@@ -5911,3 +5911,315 @@ zd-summary-block {
 .container > .section.knowledge-base {
   margin-bottom: 0;
 }
+
+/***** Devolução B2B — busca de pedidos por CNPJ (assets/devolucao-pedidos.js) *****/
+.dvp {
+  margin: -8px 0 26px;
+}
+.dvp-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+.dvp-search,
+.dvp-clear,
+.dvp-nav-btn {
+  font: inherit;
+  cursor: pointer;
+}
+.dvp-search {
+  height: 40px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--brand-highlight);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.15s ease;
+}
+.dvp-search:hover:not(:disabled) {
+  background: var(--brand-hover);
+}
+.dvp-search:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+.dvp-search:focus-visible,
+.dvp-card:focus-visible,
+.dvp-nav-btn:focus-visible,
+.dvp-clear:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-highlight) 30%, transparent);
+}
+.dvp-hint {
+  color: #6e6e73;
+  font-size: 13px;
+}
+.dvp-status:empty {
+  display: none;
+}
+.dvp-status {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #6e6e73;
+}
+.dvp-status--error {
+  color: #c4291c;
+}
+.dvp-status--empty {
+  padding: 14px 16px;
+  border: 1px dashed #d6d1c7;
+  border-radius: 10px;
+  background: #faf9f7;
+  color: #48484a;
+}
+
+/* Results + carousel */
+.dvp-results {
+  margin-top: 16px;
+}
+.dvp-results-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.dvp-results-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+.dvp-results-title span {
+  margin-left: 6px;
+  font-weight: 400;
+  color: #6e6e73;
+}
+.dvp-nav {
+  display: flex;
+  gap: 6px;
+}
+.dvp-nav[hidden] {
+  display: none;
+}
+.dvp-nav-btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid #e6e2da;
+  border-radius: 50%;
+  background: #fff;
+  color: #1d1d1f;
+}
+.dvp-nav-btn:hover:not(:disabled) {
+  border-color: #b9c0c6;
+}
+.dvp-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.dvp-track {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 2px 2px 10px;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  overscroll-behavior-x: contain;
+}
+.dvp-card-item {
+  flex: 0 0 236px;
+  scroll-snap-align: start;
+  display: flex;
+}
+
+/* Card */
+.dvp-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #e6e2da;
+  border-radius: 12px;
+  background: #fff;
+  color: #1d1d1f;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+.dvp-card:hover {
+  border-color: #b9c0c6;
+  transform: translateY(-1px);
+}
+.dvp-card[aria-pressed="true"] {
+  border-color: var(--brand-highlight);
+  box-shadow: 0 0 0 1px var(--brand-highlight), 0 6px 18px color-mix(in srgb, var(--brand-highlight) 14%, transparent);
+}
+.dvp-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.dvp-card-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #f5f5f7;
+  color: #48484a;
+}
+.dvp-badge {
+  visibility: hidden;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--brand-highlight);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+}
+.dvp-card[aria-pressed="true"] .dvp-badge {
+  visibility: visible;
+}
+.dvp-card-name {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.dvp-card-sku {
+  font-size: 12px;
+  color: #6e6e73;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.dvp-card-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 10px;
+  margin: 10px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid #f0ede7;
+}
+.dvp-card-meta dt {
+  font-size: 11px;
+  color: #6e6e73;
+}
+.dvp-card-meta dd {
+  margin: 1px 0 0;
+  font-size: 12.5px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Loading skeleton */
+.dvp-card--skeleton {
+  cursor: default;
+  gap: 10px;
+  min-height: 190px;
+}
+.dvp-card--skeleton:hover {
+  transform: none;
+  border-color: #e6e2da;
+}
+.dvp-card--skeleton span {
+  display: block;
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f0ede7 0%, #f8f7f4 50%, #f0ede7 100%);
+  background-size: 200% 100%;
+  animation: dvp-shimmer 1.2s linear infinite;
+}
+.dvp-card--skeleton span:first-child {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+}
+.dvp-card--skeleton span:nth-child(3) {
+  width: 60%;
+}
+.dvp-card--skeleton span:last-child {
+  margin-top: auto;
+  height: 40px;
+}
+@keyframes dvp-shimmer {
+  to { background-position: -200% 0; }
+}
+
+/* Selection summary + auto-filled fields */
+.dvp-selected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--brand-highlight) 7%, #fff);
+  font-size: 13px;
+  color: #1d1d1f;
+}
+.dvp-selected[hidden] {
+  display: none;
+}
+.dvp-clear {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--brand-highlight);
+  font-size: 13px;
+  font-weight: 600;
+}
+.dvp-clear:hover {
+  text-decoration: underline;
+}
+#new-request-form .dvp-autofilled {
+  background-color: #f5f5f7;
+  color: #48484a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dvp-card,
+  .dvp-card--skeleton span {
+    transition: none;
+    animation: none;
+  }
+}
+@media (max-width: 600px) {
+  .dvp-card-item {
+    flex-basis: 78%;
+  }
+}
+
+/* Devolução B2B — anexos obrigatórios */
+.dvp-att-required {
+  margin-left: 0;
+}
+.dvp-att-hint {
+  margin: -2px 0 8px;
+  font-size: 13px;
+  color: #6e6e73;
+}
+.dvp-att-counter {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #6e6e73;
+}
+.dvp-att-counter--ok {
+  color: #1e7e34;
+}
+.dvp-att-counter--error {
+  color: #c4291c;
+  font-weight: 500;
+}
+#new-request-form .dvp-att-invalid [data-garden-id="forms.file_upload"] {
+  border-color: #c4291c;
+}
