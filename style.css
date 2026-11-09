@@ -5897,55 +5897,11 @@ zd-summary-block {
 }
 
 /***** Homepage — request shortcuts (B2B) *****/
-/* Two large buttons above the categories, 50% each; they stack on mobile.
-   No negative margin: the edges line up with the cards below, whose
-   .blocks-list -15px margin is cancelled by the 15px margin of each item. */
-.home-actions {
-  display: flex;
-  gap: 30px;
-  /* The hero section already provides the space above */
-  margin: 0 0 30px;
-}
-.home-action {
-  flex: 1 1 0;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  min-height: 110px;
-  padding: 24px;
-  border-radius: 12px;
-  background: var(--brand-highlight);
-  color: #fff;
-  font-size: 22px;
-  font-weight: 600;
-  text-align: center;
-  box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 10px;
-  transition: background-color 0.15s ease;
-}
-.home-action:visited {
-  color: #fff;
-}
-.home-action:hover,
-.home-action:focus,
-.home-action:active {
-  background: var(--brand-hover);
-  color: #fff;
-  text-decoration: none;
-}
-.home-action-icon {
-  flex: 0 0 auto;
-}
-@media (max-width: 767px) {
-  .home-actions {
-    flex-direction: column;
-    gap: 16px;
-  }
-  .home-action {
-    min-height: 80px;
-    font-size: 18px;
-  }
+/* Two cards above the categories, reusing the .blocks-list/.blocks-item look
+   of the category cards; flex: 1 0 340px puts them side by side at 50% each
+   and stacks them on narrow screens. Only the pill label changes. */
+.home-actions .blocks-item a::after {
+  content: 'Acessar';
 }
 
 /***** Homepage — spacing before the footer *****/
