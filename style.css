@@ -5889,16 +5889,8 @@ zd-summary-block {
   }
 }
 
-/* Hide "Submit a request" from header nav (desktop + mobile) */
-.user-nav-list .submit-a-request,
-.menu-list-mobile-items .submit-a-request {
-  display: none;
-}
-
-/* Hide "Fale com um especialista" CTA block in the footer */
-.footer .footer-cta {
-  display: none;
-}
+/* B2B: "Submit a request" (header nav) and the "Fale com um especialista"
+   footer CTA stay visible here. The PRD core hides both. */
 
 /***** Homepage — spacing before the footer *****/
 /* The cards already carry a 30px bottom margin, so the 60px of `.section`
