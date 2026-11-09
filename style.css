@@ -6122,6 +6122,60 @@ zd-summary-block {
   }
 }
 
+/***** Floating "Ir para o site" button (B2B) *****/
+/* Fixed at the bottom right on every page (rendered after the footer). It
+   opens the site in a new tab so a half-filled request isn't lost. z-index
+   stays under the theme's modals (1000). The footer gets extra bottom room so
+   the button never sits on top of its last row (social icons, "Ver site"). */
+.site-fab {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: var(--brand-highlight);
+  box-shadow: 0 8px 24px rgba(0, 54, 120, 0.25);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.site-fab:visited {
+  color: #fff;
+}
+.site-fab:hover,
+.site-fab:focus {
+  background: var(--brand-hover);
+  box-shadow: 0 10px 28px rgba(0, 54, 120, 0.3);
+  color: #fff;
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+.site-fab:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand-highlight) 35%, transparent);
+  outline-offset: 2px;
+}
+.footer {
+  padding-bottom: 96px;
+}
+@media (max-width: 767px) {
+  .site-fab {
+    right: 16px;
+    bottom: 16px;
+    padding: 11px 16px;
+  }
+}
+@media print {
+  .site-fab {
+    display: none;
+  }
+}
+
 /***** Homepage — request shortcuts (B2B) *****/
 /* Two cards above the categories, reusing the .blocks-list/.blocks-item look
    of the category cards; flex: 1 0 340px puts them side by side at 50% each
