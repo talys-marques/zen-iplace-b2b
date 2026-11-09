@@ -3,8 +3,9 @@
 Tema do Help Center gerado automaticamente pelo `build.py` do projeto de temas
 Zendesk, a partir de `cores/prd-b2b/` (v1.12.1) + `brands/iplaceb2b/`.
 
-**Não edite este repositório direto**: todo publish substitui o conteúdo
-inteiro. Faça a mudança no projeto de origem e rode
-`python build.py --publish iplaceb2b:prd`.
+**Mudanças aqui só por pull request**, nunca direto na branch do ambiente.
+O publish substitui o conteúdo inteiro, mas se recusa a rodar enquanto houver
+mudança de outra pessoa que ainda não foi incorporada ao projeto de origem.
+Quem usa um agente (Claude) neste repositório: as regras estão no `CLAUDE.md`.
 
 No Guide, use **Personalizar design › tema › Atualizar** para puxar a versão nova.
