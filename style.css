@@ -7165,3 +7165,50 @@ zd-summary-block {
 .requests-page .pagination {
   margin-top: 24px;
 }
+
+/* Devolução B2B — campo "Valor da devolução (R$)" com máscara em reais.
+   O input original do Zendesk fica escondido (continua sendo enviado) e o
+   .dvp-money imita a aparência dos inputs do formulário. */
+#new-request-form .dvp-money-field > .dvp-money-original {
+  display: none;
+}
+#new-request-form .dvp-money {
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid #d8dcde;
+  border-radius: 8px;
+  background: #fff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+#new-request-form .dvp-money:hover {
+  border-color: #b9c0c6;
+}
+#new-request-form .dvp-money:focus-within {
+  border-color: var(--brand-highlight);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-highlight) 18%, transparent);
+}
+#new-request-form .dvp-money:has(.dvp-money-input[aria-invalid="true"]) {
+  border-color: #cc3340;
+}
+#new-request-form .dvp-money-prefix {
+  margin-right: 6px;
+  color: #6e6e73;
+  font-size: 14px;
+}
+#new-request-form .dvp-money-input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  text-align: left;
+}

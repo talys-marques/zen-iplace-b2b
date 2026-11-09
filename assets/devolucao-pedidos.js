@@ -33,6 +33,8 @@ const CONFIG = {
     nf: ["numero da nf de venda"],
     dataNf: ["data da nf de venda"],
     sku: ["produto / sku", "produto/sku"],
+    // Campo de valor em reais (máscara 0,00 — ver setupMoneyField)
+    valorDevolucao: ["valor da devolucao (r$)", "valor da devolucao", "valor da devolucao r$"],
   },
 
   // Opcional: IDs dos campos, se preferir não depender do rótulo.
@@ -678,6 +680,7 @@ export function initDevolucaoPedidos({ container, requestForm, organizations }) 
       decorateCnpj(input);
     }
     decoratePlaceholders();
+    money.refresh();
     attachments.refresh();
   }
 
@@ -713,8 +716,125 @@ export function initDevolucaoPedidos({ container, requestForm, organizations }) 
     });
   }
   const attachments = setupRequiredAttachments({ container, requestForm, getForm });
+  const money = setupMoneyField({ getForm, id: ids.valorDevolucao, type: types.valorDevolucao });
   new MutationObserver(mount).observe(container, { childList: true, subtree: true });
   mount();
+}
+
+// --------------------------- VALOR EM REAIS ---------------------------------
+// "Valor da devolução (R$)": a pessoa digita só números e o valor se forma da
+// direita para a esquerda, como em maquininha (1 -> 0,01; 12345 -> 123,45),
+// exibido no padrão brasileiro (1.234,56) com "R$" na frente.
+//
+// O campo original do Zendesk fica escondido e recebe o valor no formato que
+// o tipo dele aceita: campo numérico (decimal/integer) -> "1234.56";
+// campo de texto -> "1.234,56". Assim funciona qualquer que seja o tipo
+// cadastrado no Admin Center.
+const MONEY_MAX_DIGITS = 11; // até R$ 999.999.999,99
+
+function centsToBr(cents) {
+  const n = Number(cents) / 100;
+  return n.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+// Lê um valor já existente (ex.: formulário recarregado após erro) em
+// qualquer formato: "1234.56", "1.234,56", "1234,5", "1234".
+function parseToCents(value) {
+  const s = String(value || "").trim();
+  if (!s) return "";
+  const comma = s.lastIndexOf(",");
+  const dot = s.lastIndexOf(".");
+  const decimalSep = comma > dot ? "," : dot > -1 && s.length - dot - 1 <= 2 ? "." : null;
+  let intPart = s;
+  let frac = "";
+  if (decimalSep) {
+    intPart = s.slice(0, s.lastIndexOf(decimalSep));
+    frac = s.slice(s.lastIndexOf(decimalSep) + 1);
+  }
+  const cents = `${onlyDigits(intPart) || "0"}${onlyDigits(frac).padEnd(2, "0").slice(0, 2)}`;
+  return String(Number(cents));
+}
+
+function setupMoneyField({ getForm, id, type }) {
+  if (!id) return { refresh() {} };
+  const numeric = type === "decimal" || type === "integer";
+  let cents = null; // null = ainda não inicializado a partir do campo original
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "dvp-money";
+  wrapper.innerHTML = '<span class="dvp-money-prefix" aria-hidden="true">R$</span>';
+  const proxy = document.createElement("input");
+  proxy.type = "text";
+  proxy.className = "dvp-money-input";
+  proxy.setAttribute("inputmode", "numeric");
+  proxy.setAttribute("autocomplete", "off");
+  proxy.setAttribute("placeholder", "0,00");
+  wrapper.appendChild(proxy);
+
+  const original = () => {
+    const form = getForm();
+    return form ? findInput(form, id) : null;
+  };
+
+  function toOriginalValue(c) {
+    if (c === "") return "";
+    if (type === "integer") return String(Math.round(Number(c) / 100));
+    return numeric ? (Number(c) / 100).toFixed(2) : centsToBr(c);
+  }
+
+  function render() {
+    const display = cents === "" ? "" : centsToBr(cents);
+    if (proxy.value !== display) proxy.value = display;
+    proxy.setSelectionRange && document.activeElement === proxy && proxy.setSelectionRange(display.length, display.length);
+  }
+
+  function commit() {
+    const el = original();
+    if (!el) return;
+    const value = toOriginalValue(cents);
+    if (el.value !== value) setReactValue(el, value);
+  }
+
+  proxy.addEventListener("input", () => {
+    const digits = onlyDigits(proxy.value).replace(/^0+/, "").slice(0, MONEY_MAX_DIGITS);
+    cents = digits;
+    render();
+    commit();
+  });
+  // Colar "R$ 1.234,56" ou "1234.56": interpreta como valor, não só dígitos
+  proxy.addEventListener("paste", (event) => {
+    const text = (event.clipboardData || window.clipboardData).getData("text");
+    if (!text) return;
+    event.preventDefault();
+    cents = parseToCents(text).slice(0, MONEY_MAX_DIGITS);
+    render();
+    commit();
+  });
+
+  function refresh() {
+    const el = original();
+    if (!el) return;
+    if (cents === null) cents = parseToCents(el.value);
+    const field = el.closest("[data-garden-id='forms.field']") || el.parentElement;
+    field.classList.add("dvp-money-field");
+    el.classList.add("dvp-money-original");
+    el.tabIndex = -1;
+    el.setAttribute("aria-hidden", "true");
+    if (el.nextElementSibling !== wrapper) el.after(wrapper);
+    // Acessibilidade: o rótulo do campo original descreve o novo
+    const label = field.querySelector("label");
+    if (label) {
+      if (!label.id) label.id = `dvp-money-label-${id}`;
+      proxy.setAttribute("aria-labelledby", label.id);
+      if (label.htmlFor !== `dvp-money-${id}`) label.htmlFor = `dvp-money-${id}`;
+    }
+    proxy.id = `dvp-money-${id}`;
+    if (el.getAttribute("aria-invalid") === "true") proxy.setAttribute("aria-invalid", "true");
+    else proxy.removeAttribute("aria-invalid");
+    render();
+  }
+
+  return { refresh };
 }
 
 // ------------------------- ANEXOS OBRIGATÓRIOS ------------------------------
