@@ -11,6 +11,10 @@ Quem pede as mudanças aqui é uma pessoa da **equipe de suporte Zendesk**. Ela
 conhece o Help Center e o conteúdo, mas **não é técnica**. O único técnico do
 projeto é o **Tálys** (GitHub `talys-marques`), dono dos repositórios.
 
+**A pessoa do suporte é autônoma**: as edições dela vão para o ar sem
+aprovação nem revisão do Tálys. Você conduz o pedido do começo ao fim,
+inclusive aceitar a mudança na branch do ambiente, sem esperar por ninguém.
+
 ### 1. Fale sem termos técnicos
 
 - Não use jargão com a pessoa: nada de branch, commit, push, merge, pull
@@ -29,24 +33,42 @@ projeto é o **Tálys** (GitHub `talys-marques`), dono dos repositórios.
   erro. Escolha sempre a opção mais segura e mais simples.
 - Não peça para a pessoa rodar comandos, editar arquivos ou interpretar
   mensagens de erro.
-- Se travar em algo que só o Tálys resolve (acesso, senha, permissão,
-  configuração da conta), diga em uma frase simples que isso depende do Tálys
-  e deixe a proposta de alteração explicando o bloqueio para ele.
+- Não espere o Tálys para nada que você mesmo consiga fazer. Só se travar em
+  algo que exige a conta dele (acesso, senha, permissão no GitHub ou no
+  Zendesk), diga em uma frase simples que isso depende do Tálys e deixe a
+  proposta de alteração explicando o bloqueio para ele.
 
 ### 3. Nunca perca conteúdo
 
-Esta é a regra mais importante. Tudo é feito por **branch + pull request**:
+Esta é a regra mais importante. Tudo é feito por **branch + pull request com
+merge automático, sem aprovador**:
 
-- **Nunca** faça commit ou push direto em `main` nem em `hml`.
-- Para cada pedido, crie uma branch nova a partir da branch do ambiente
-  atualizada, com nome `suporte/<descricao-curta>` (ex.:
-  `suporte/telefone-rodape`), e abra um **pull request** de volta para a
-  branch do ambiente. Se não conseguir abrir o pull request pela ferramenta,
-  envie a branch e entregue à pessoa o link
-  `https://github.com/talys-marques/zen-iplace-b2b/compare/<branch-do-ambiente>...<sua-branch>?expand=1`.
+1. Atualize a branch do ambiente (`main`, ou `hml` para homologação) e crie
+   a partir dela uma branch nova `suporte/<descricao-curta>` (ex.:
+   `suporte/telefone-rodape`).
+2. Faça a mudança e o commit nessa branch e envie (push) a branch.
+3. Abra um **pull request** dela para a branch do ambiente.
+4. **Faça você mesmo o merge** do pull request, sem pedir revisão ou
+   aprovação de ninguém. Use merge comum (merge commit), não squash nem
+   rebase, para o histórico ficar completo.
+5. Se o pull request tiver conflito porque a branch do ambiente mudou nesse
+   meio tempo, traga a branch do ambiente para a sua com `merge` (não rebase),
+   resolva o conflito preservando as duas mudanças e tente de novo.
+
+Se a sua ferramenta não conseguir abrir ou fazer o merge do pull request, não
+pare: entregue à pessoa o link
+`https://github.com/talys-marques/zen-iplace-b2b/compare/<branch-do-ambiente>...<sua-branch>?expand=1`
+e guie em passos simples: clicar no botão verde **Create pull request**, depois
+em **Merge pull request** e em **Confirm merge**.
+
+Além disso:
+
+- **Nunca** faça commit ou push direto em `main` nem em `hml`. A mudança só
+  chega lá pelo merge do pull request.
 - **Nunca** use `push --force`, `reset --hard` em algo já enviado, rebase de
   branch já enviada, nem apague branches, arquivos ou histórico que você não
-  criou neste pedido.
+  criou neste pedido. Pode deixar as branches `suporte/...` existindo depois
+  do merge.
 - Mude só o que foi pedido. Não reformate arquivos inteiros, não reorganize
   pastas, não "aproveite para melhorar" outras partes.
 - Antes de enviar, confira a lista de arquivos alterados: só pode ter o que o
@@ -54,30 +76,35 @@ Esta é a regra mais importante. Tudo é feito por **branch + pull request**:
 - Não use a mensagem `chore: publish ...` nos seus commits — ela é reservada
   para a publicação automática do Tálys.
 
-**No Zendesk também:** nunca recomende excluir ou sobrescrever o tema que está
-publicado. Para testar, a pessoa importa a sua branch como um **tema novo**
-(Personalizar design › Adicionar tema › Importar do GitHub, informando o
-repositório `talys-marques/zen-iplace-b2b` e o nome da sua branch) e usa **Visualizar**, sem
-publicar. Só depois de ela aprovar:
+**No Zendesk também:** o merge não muda o Help Center sozinho. A versão nova
+só vai para o ar quando a pessoa clica em **Atualizar** no tema publicado
+(Personalizar design › menu do tema › Atualizar). Depois do merge, explique
+esse passo em palavras simples.
 
-1. o pull request é aceito (merge) na branch do ambiente;
-2. no tema publicado, a pessoa clica em **Atualizar** para puxar a versão nova;
-3. o tema de teste pode ser excluído.
-
-Explique esses passos à pessoa com palavras simples, um de cada vez.
+- Nunca recomende excluir ou sobrescrever o tema que está publicado.
+- Para mudanças grandes ou arriscadas (layout, várias páginas), ofereça
+  testar antes do merge: a pessoa importa a sua branch como um **tema novo**
+  (Personalizar design › Adicionar tema › Importar do GitHub, repositório
+  `talys-marques/zen-iplace-b2b`, branch `suporte/...`) e usa **Visualizar**, sem publicar.
+  Depois o tema de teste pode ser excluído. Para ajustes pequenos (um texto,
+  um telefone, uma imagem), siga direto para o merge.
 
 ### 4. Descreva bem o pull request
 
-O pull request é como o Tálys fica sabendo da mudança. Escreva em português:
-o que a pessoa pediu, o que mudou na tela e quais arquivos foram alterados.
+O pull request é o registro da mudança, e é por ele que o Tálys fica sabendo
+dela depois. Escreva em português o que a pessoa pediu, o que mudou na tela e
+quais arquivos foram alterados.
 
 ## Contexto técnico (só para você)
 
 - Este repositório é **gerado** pelo projeto de origem do Tálys (`build.py
   --publish`), que substitui todo o conteúdo da branch a cada publicação. O
   `build.py` se recusa a publicar por cima de mudanças feitas aqui até o
-  Tálys incorporá-las no projeto de origem — por isso o pull request bem
-  descrito é essencial. Não tente contornar isso.
+  Tálys incorporá-las no projeto de origem, então as edições do suporte não
+  se perdem — por isso o pull request bem descrito é essencial. Isso não
+  bloqueia você: siga fazendo merge normalmente.
+- Commits com a mensagem `chore: publish ...` na branch do ambiente são
+  publicações do Tálys. Trate-os como qualquer outra mudança: nunca desfaça.
 - Tema baseado no Copenhagen (Zendesk Guide, `api_version` do
   `manifest.json`). Templates em `templates/*.hbs` (Handlebars/Curlybars),
   estilos em `style.css`, scripts em `script.js`, imagens das configurações em
