@@ -116,6 +116,8 @@
   "show_brand_name_label": "Exibir nome da Central de Ajuda",
   "social_facebook_url_description": "URL da página no Facebook. Deixe vazio para ocultar o ícone",
   "social_facebook_url_label": "Facebook",
+  "social_linkedin_url_description": "URL da página no LinkedIn. Deixe vazio para ocultar o ícone",
+  "social_linkedin_url_label": "LinkedIn",
   "social_instagram_url_description": "URL do perfil no Instagram. Deixe vazio para ocultar o ícone",
   "social_instagram_url_label": "Instagram",
   "social_tiktok_url_description": "URL do perfil no TikTok. Deixe vazio para ocultar o ícone",

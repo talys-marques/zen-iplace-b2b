@@ -1,7 +1,7 @@
 {
-  "name": "iPlace B2B [v1.9.2]",
+  "name": "iPlace B2B [v1.10.0]",
   "author": "Zendesk",
-  "version": "1.9.2",
+  "version": "1.10.0",
   "api_version": 4,
   "default_locale": "en-us",
   "settings": [
@@ -435,6 +435,13 @@
           "description": "social_tiktok_url_description",
           "label": "social_tiktok_url_label",
           "value": ""
+        },
+        {
+          "identifier": "social_linkedin_url",
+          "type": "text",
+          "description": "social_linkedin_url_description",
+          "label": "social_linkedin_url_label",
+          "value": "https://www.linkedin.com/company/iplace-corporativo/"
         },
         {
           "identifier": "footer_site_url",

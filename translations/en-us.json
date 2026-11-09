@@ -116,6 +116,8 @@
   "show_brand_name_label": "Show Help Center name",
   "social_facebook_url_description": "Facebook page URL. Leave empty to hide the icon",
   "social_facebook_url_label": "Facebook",
+  "social_linkedin_url_description": "LinkedIn page URL. Leave empty to hide the icon",
+  "social_linkedin_url_label": "LinkedIn",
   "social_instagram_url_description": "Instagram profile URL. Leave empty to hide the icon",
   "social_instagram_url_label": "Instagram",
   "social_tiktok_url_description": "TikTok profile URL. Leave empty to hide the icon",
