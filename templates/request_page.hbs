@@ -1,14 +1,26 @@
-<div class="container">
+<div class="container request-page">
   <div class="request-breadcrumbs">{{breadcrumbs}}</div>
 
-  <h1 class="request-title">{{request.subject}}</h1>
+  <header class="request-header">
+    <div class="request-header-meta">
+      <span class="request-number">Solicitação #{{request.id}}</span>
+      <span class="status-label status-label-request status-label-{{request.status}}" title="{{request.status_description}}">
+        {{request.status_name}}
+      </span>
+    </div>
+    <h1 class="request-title">{{request.subject}}</h1>
+    <p class="request-header-dates">
+      Aberta em {{date request.created_at}} · última atividade {{date request.updated_at timeago=true}}
+    </p>
+  </header>
 
   <div id="main-content" class="request-container">
     <section class="request-main">
       {{satisfaction}}
+      <h2 class="request-section-title">Conversa</h2>
       <ul class="comment-list">
         {{#each comments}}
-          <li id="{{anchor}}" class="comment">
+          <li id="{{anchor}}" class="comment{{#if author.agent}} comment-agent{{/if}}">
             <div class="comment-wrapper">
               <div class="comment-info">
                 <div class="comment-author">
@@ -22,16 +34,17 @@
                   </div>
 
                   <div class="comment-meta">
-                    <span title="{{author.name}}">
+                    <span class="comment-author-name" title="{{author.name}}">
                       {{#link 'user_profile' id=author.id}}
                         {{author.name}}
                       {{/link}}
                     </span>
-
-                    <div class="meta-group">
-                      <span class="meta-data">{{date created_at timeago=true}}</span>
-                    </div>
+                    {{#if author.agent}}
+                      <span class="comment-badge">Equipe iPlace</span>
+                    {{/if}}
                   </div>
+
+                  <span class="comment-date">{{date created_at timeago=true}}</span>
                 </div>
 
                 <section class="comment-body">{{body}}</section>
@@ -71,7 +84,7 @@
 
         <div class="comment-container">
           <button type="button" class="comment-show-container {{#validate 'body'}}hidden{{/validate}}">
-            {{t 'add_to_conversation'}}
+            Escreva uma resposta…
           </button>
 
           <div class="comment-fields {{#validate 'body'}}shown{{/validate}}">
@@ -117,7 +130,7 @@
         </svg>
       </button>
       <h2 id="request-sidebar-title" class="collapsible-sidebar-title">
-        {{t 'ticket_details'}}
+        Detalhes da solicitação
       </h2>
       <div class="collapsible-sidebar-body">
         {{#if request.followup_source_id}}
@@ -193,9 +206,6 @@
             </dd>
           {{/if}}
 
-          <dt>{{t 'id'}}</dt>
-          <dd>#{{request.id}}</dd>
-
           {{#form 'organization' id='request-organization' class='hbs-form'}}
             <dt>{{t 'organization'}}</dt>
             <dd>{{select 'organization'}}</dd>
@@ -207,13 +217,6 @@
               {{group.name}}
             </dd>
           {{/if}}
-
-          <dt>{{t 'status'}}</dt>
-          <dd>
-            <span class="status-label status-label-request status-label-{{request.status}}" title="{{request.status_description}}">
-              {{request.status_name}}
-            </span>
-          </dd>
 
           {{#if request.type}}
             <dt>{{request.type_title}}</dt>

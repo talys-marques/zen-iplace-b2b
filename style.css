@@ -6223,3 +6223,312 @@ zd-summary-block {
 #new-request-form .dvp-att-invalid [data-garden-id="forms.file_upload"] {
   border-color: #c4291c;
 }
+
+/***** Request page (requests/:id) — B2B *****/
+/* Same language as the rest of the theme: white cards with the #e6e2da border
+   and 12px corners, brand blue for actions, the light blue of the old footer
+   CTA (#eef4fe / #d6e6fb) to tell the team's replies apart. Everything is
+   scoped to .request-page; the JS hooks (.request-container .comment-container,
+   .mark-as-solved, .collapsible-sidebar) are untouched. */
+.request-page {
+  --request-border: #e6e2da;
+  --request-muted: #6b7280;
+}
+.request-page .request-breadcrumbs {
+  margin-bottom: 24px;
+}
+
+/* Header: number + status, subject, dates */
+.request-header {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--request-border);
+}
+.request-header-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.request-number {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--request-muted);
+}
+.request-page .request-title {
+  max-width: none;
+  margin: 0 0 8px;
+  padding: 0;
+  border: 0;
+  font-size: 28px;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.request-header-dates {
+  margin: 0;
+  font-size: 14px;
+  color: var(--request-muted);
+}
+
+/* Status as a pill, here only */
+.request-page .status-label {
+  border-radius: 999px;
+  padding: 4px 12px;
+  margin: 0;
+}
+
+/* Layout: conversation + details card */
+@media (min-width: 1024px) {
+  .request-page .request-container {
+    flex-wrap: nowrap;
+    gap: 30px;
+  }
+  .request-page .request-main {
+    flex: 1 1 auto;
+  }
+}
+
+/* Conversation */
+.request-section-title {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 700;
+}
+.request-page .comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.request-page .comment {
+  padding: 20px 24px;
+  border: 1px solid var(--request-border);
+  border-radius: 12px;
+  background: #fff;
+}
+.request-page .comment-agent {
+  background: #eef4fe;
+  border-color: #d6e6fb;
+}
+.request-page .comment-info {
+  padding: 0;
+}
+.request-page .comment-author {
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.request-page .comment-avatar {
+  flex: 0 0 auto;
+  margin: 0;
+}
+.request-page .comment-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  min-width: 0;
+}
+.request-page .comment-author-name a,
+.request-page .comment-author-name a:visited {
+  color: $text_color;
+  font-weight: 600;
+}
+.comment-badge {
+  padding: 2px 10px;
+  border: 1px solid #d6e6fb;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--brand-highlight);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.comment-date {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--request-muted);
+  white-space: nowrap;
+}
+.request-page .comment-body {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Attachments as chips */
+.request-page .comment .attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.request-page .attachments .attachment-item {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  max-width: 100%;
+  margin: 0;
+  padding: 8px 12px;
+  border: 1px solid var(--request-border);
+  border-radius: 8px;
+  background: #fff;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.request-page .attachments .attachment-item .attachment-icon {
+  position: static;
+  flex: 0 0 auto;
+}
+.request-page .attachment-meta {
+  font-size: 12px;
+}
+
+/* Reply */
+.request-page .request-follow-up {
+  padding-top: 16px;
+}
+.request-page .comment-form {
+  gap: 12px;
+  margin-top: 16px;
+  padding: 20px 24px;
+  border: 1px solid var(--request-border);
+  border-radius: 12px;
+  background: #fff;
+}
+.request-page .comment-form .comment-avatar {
+  margin: 0;
+}
+.request-page .comment-show-container {
+  padding: 12px 16px;
+  border: 1px solid #d8dcde;
+  border-radius: 8px;
+  background: #fff;
+  box-sizing: border-box;
+  color: var(--request-muted);
+  cursor: text;
+  transition: border-color 0.15s ease;
+}
+.request-page .comment-show-container:hover,
+.request-page .comment-show-container:focus {
+  border-color: var(--brand-highlight);
+}
+.request-page .comment-form-controls .button-large,
+.request-page .comment-form-controls input[type=submit] {
+  border-radius: 8px;
+  font-weight: 600;
+}
+/* "Mark as solved" outlined, so "Submit" stays the main action (the theme's
+   .button-large rule paints every large button solid blue) */
+.request-page .comment-form-controls .mark-as-solved {
+  border: 1px solid #d8dcde;
+  background-color: #fff;
+  color: $text_color;
+}
+.request-page .comment-form-controls .mark-as-solved:hover,
+.request-page .comment-form-controls .mark-as-solved:focus {
+  border-color: var(--brand-highlight);
+  background-color: #fff;
+  color: var(--brand-highlight);
+}
+
+/* Details card */
+.request-page .request-sidebar {
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  padding: 10px 20px;
+  border: 1px solid var(--request-border);
+  border-radius: 12px;
+  background: #fff;
+  font-size: 14px;
+}
+.request-page .collapsible-sidebar {
+  max-height: 48px;
+}
+.request-page .collapsible-sidebar[aria-expanded=true] {
+  max-height: none;
+}
+.request-page .collapsible-sidebar-toggle {
+  right: 14px;
+  top: 24px;
+}
+.request-page .request-sidebar h2 {
+  margin: 4px 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+@media (min-width: 1024px) {
+  .request-page .request-sidebar {
+    flex: 0 0 320px;
+    width: 320px;
+    margin-bottom: 0;
+    padding: 20px 24px;
+    background: #fff;
+    border: 1px solid var(--request-border);
+    position: sticky;
+    top: 20px;
+  }
+  .request-page .collapsible-sidebar {
+    max-height: none;
+  }
+  .request-page .request-sidebar h2 {
+    display: block;
+    margin: 0 0 4px;
+  }
+}
+.request-page .request-details {
+  margin: 0;
+  padding: 0 0 16px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+.request-page .request-details:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.request-page .request-details dt,
+.request-page .request-details dd {
+  display: block;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  white-space: normal;
+  overflow: visible;
+}
+.request-page .request-details dt {
+  margin-top: 14px;
+  color: var(--request-muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.request-page .request-details dd {
+  margin-top: 4px;
+  color: $text_color;
+  overflow-wrap: anywhere;
+}
+.request-page .request-details dd::after {
+  content: none;
+}
+.request-page .request-attachments dd {
+  margin-top: 8px;
+}
+.request-page .request-attachments .attachments {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (max-width: 767px) {
+  .request-page .request-title {
+    font-size: 24px;
+  }
+  .request-page .comment,
+  .request-page .comment-form {
+    padding: 16px;
+  }
+}
