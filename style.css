@@ -6201,32 +6201,47 @@ zd-summary-block {
 }
 
 /* Campo CNPJ: rótulo em cima; campo (largura de um CNPJ) + botão na mesma
-   linha; mensagens do Zendesk abaixo. No celular, o botão desce. */
+   linha; mensagens do Zendesk abaixo. No celular, o botão desce.
+   Os seletores repetem "form > [data-garden-id=forms.field]" de propósito:
+   o layout em duas colunas do formulário deixa cada campo em coluna
+   (flex-direction: column) e precisa ser vencido só neste campo. */
+#new-request-form form > [data-garden-id="forms.field"].dvp-cnpj-field,
 #new-request-form .dvp-cnpj-field {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: center;
   column-gap: 10px;
 }
+#new-request-form form > [data-garden-id="forms.field"].dvp-cnpj-field > *,
 #new-request-form .dvp-cnpj-field > * {
   flex: 1 0 100%;
 }
+#new-request-form form > [data-garden-id="forms.field"].dvp-cnpj-field > input[data-garden-id="forms.input"],
 #new-request-form .dvp-cnpj-field > input {
   flex: 0 1 240px;
+  width: 240px;
   min-width: 0;
+  height: auto;
+  margin-top: 0;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.02em;
 }
 #new-request-form .dvp-cnpj-field > input::placeholder {
   letter-spacing: normal;
 }
+#new-request-form form > [data-garden-id="forms.field"].dvp-cnpj-field > .dvp-search,
 #new-request-form .dvp-cnpj-field > .dvp-search {
   flex: 0 0 auto;
+  margin: 0;
 }
 @media (max-width: 480px) {
+  #new-request-form form > [data-garden-id="forms.field"].dvp-cnpj-field > input[data-garden-id="forms.input"],
   #new-request-form .dvp-cnpj-field > input {
     flex: 1 0 100%;
+    width: 100%;
   }
+  #new-request-form form > [data-garden-id="forms.field"].dvp-cnpj-field > .dvp-search,
   #new-request-form .dvp-cnpj-field > .dvp-search {
     flex: 1 0 100%;
     margin-top: 10px;
