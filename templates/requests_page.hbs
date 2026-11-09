@@ -16,8 +16,19 @@
       {{request_list}}
     </div>
   {{else}}
-    <header class="my-activities-header">
-      <h1>{{t 'my_requests'}}</h1>
+    <header class="my-activities-header requests-header">
+      <div class="requests-header-top">
+        <div>
+          <h1>{{t 'my_requests'}}</h1>
+          <p class="requests-subtitle">Acompanhe o andamento das solicitações que você abriu ou em que está em cópia.</p>
+        </div>
+        <a href="{{page_path 'new_request'}}" class="button button-primary requests-new-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" focusable="false" aria-hidden="true">
+            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M8 3v10M3 8h10"/>
+          </svg>
+          Abrir solicitação
+        </a>
+      </div>
 
       <div class="my-activities-sub-nav">
         <nav class="collapsible-nav collapsible-nav-border">
@@ -76,7 +87,10 @@
       </div>
     {{else}}
       {{#unless requests}}
-        <p class="no-activities">{{t 'no_requests'}}</p>
+        <div class="requests-empty">
+          <p class="no-activities">{{t 'no_requests'}}</p>
+          <a href="{{page_path 'new_request'}}">Abrir uma solicitação</a>
+        </div>
       {{/unless}}
     {{/if}}
 
