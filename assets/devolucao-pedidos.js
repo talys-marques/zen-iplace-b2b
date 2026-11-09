@@ -405,7 +405,11 @@ function cardHtml(item, index) {
           <div><dt>Pedido</dt><dd>${escapeHtml(item.numero_pedido)}</dd></div>
           <div><dt>NF</dt><dd>${escapeHtml(item.nf_numero)}</dd></div>
           <div><dt>Data NF</dt><dd>${escapeHtml(isoToBr(item.nf_data))}</dd></div>
-          <div><dt>Qtd.</dt><dd>${escapeHtml(item.quantidade)} × ${escapeHtml(formatMoney(item.valor_unitario))}</dd></div>
+          <div><dt>Quantidade</dt><dd>${escapeHtml(item.quantidade)} ${Number(item.quantidade) === 1 ? "unidade" : "unidades"}</dd></div>
+          <div class="dvp-card-total">
+            <dt>Valor da compra</dt>
+            <dd>${escapeHtml(formatMoney(Number(item.quantidade) * Number(item.valor_unitario)))}<small>${escapeHtml(formatMoney(item.valor_unitario))} cada</small></dd>
+          </div>
         </dl>
       </button>
     </li>`;
