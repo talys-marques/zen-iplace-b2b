@@ -526,9 +526,15 @@ function setupRequiredAttachments({ container, requestForm, getForm }) {
   asterisk.setAttribute("aria-hidden", "true");
   asterisk.textContent = "*";
 
+  // O campo de anexos é o que tem a área de upload do Garden. Não dá para
+  // procurar o primeiro input[type=file]: o editor da Descrição (CKEditor)
+  // tem um escondido para inserir imagem no texto, e ele vem antes.
   function getField() {
     const form = getForm();
-    const fileInput = form && form.querySelector("input[type=file]");
+    if (!form) return null;
+    const upload = form.querySelector("[data-garden-id='forms.file_upload']");
+    if (upload) return upload.closest("[data-garden-id='forms.field']") || upload.parentElement;
+    const fileInput = [...form.querySelectorAll("input[type=file]")].find((el) => !el.closest(".ck"));
     return fileInput ? fileInput.closest("[data-garden-id='forms.field']") || fileInput.parentElement.parentElement : null;
   }
 
@@ -544,7 +550,8 @@ function setupRequiredAttachments({ container, requestForm, getForm }) {
           }
         })
       : [];
-    const listed = field ? field.querySelectorAll("li").length : 0;
+    const list = field && field.querySelector("[data-garden-id='forms.file_list']");
+    const listed = list ? list.querySelectorAll(":scope > li").length : 0;
     return {
       images: uploaded.filter(isImage).length,
       others: uploaded.filter((n) => !isImage(n)).length,
@@ -573,8 +580,9 @@ function setupRequiredAttachments({ container, requestForm, getForm }) {
     const c = counts();
     const error = attempted ? problem(c) : null;
     const ok = c.images >= cfg.minImages && !c.pending;
-    let text = `${Math.min(c.images, cfg.minImages)} de ${cfg.minImages} imagens anexadas`;
-    if (c.images > cfg.minImages) text = `${c.images} imagens anexadas`;
+    let text = `${Math.min(c.images, cfg.minImages)} / ${cfg.minImages} imagens`;
+    if (c.images > cfg.minImages) text = `${c.images} imagens`;
+    if (ok) text = `✓ ${text}`;
     if (c.others) text += ` · ${c.others} outro${c.others > 1 ? "s" : ""} arquivo${c.others > 1 ? "s" : ""}`;
     if (c.pending) text += ` · enviando ${c.pending}…`;
     const message = error || text;
