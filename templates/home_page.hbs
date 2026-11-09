@@ -12,6 +12,25 @@
 </section>
 
 <div class="container">
+  <nav class="home-actions" aria-label="Solicitações">
+    <a href="{{page_path 'new_request'}}" class="home-action">
+      <svg class="home-action-icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+        <path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span>Abrir solicitação</span>
+    </a>
+    <a href="{{page_path 'requests'}}" class="home-action">
+      <svg class="home-action-icon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M9 6h11M9 12h11M9 18h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="4.5" cy="6" r="1.5" fill="currentColor"/>
+        <circle cx="4.5" cy="12" r="1.5" fill="currentColor"/>
+        <circle cx="4.5" cy="18" r="1.5" fill="currentColor"/>
+      </svg>
+      <span>Minhas solicitações</span>
+    </a>
+  </nav>
+
   <section class="section knowledge-base">
     <h2 class="visibility-hidden">{{ t 'categories' }}</h2>
     <section class="categories blocks">
