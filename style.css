@@ -6194,13 +6194,43 @@ zd-summary-block {
 
 /***** Devolução B2B — busca de pedidos por CNPJ (assets/devolucao-pedidos.js) *****/
 .dvp {
-  margin: -8px 0 26px;
+  margin: -20px 0 26px;
 }
-.dvp-actions {
+.dvp > .dvp-hint {
+  margin-top: 8px;
+}
+
+/* Campo CNPJ: rótulo em cima; campo (largura de um CNPJ) + botão na mesma
+   linha; mensagens do Zendesk abaixo. No celular, o botão desce. */
+#new-request-form .dvp-cnpj-field {
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
-  gap: 8px 14px;
+  align-items: flex-end;
+  column-gap: 10px;
+}
+#new-request-form .dvp-cnpj-field > * {
+  flex: 1 0 100%;
+}
+#new-request-form .dvp-cnpj-field > input {
+  flex: 0 1 240px;
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+#new-request-form .dvp-cnpj-field > input::placeholder {
+  letter-spacing: normal;
+}
+#new-request-form .dvp-cnpj-field > .dvp-search {
+  flex: 0 0 auto;
+}
+@media (max-width: 480px) {
+  #new-request-form .dvp-cnpj-field > input {
+    flex: 1 0 100%;
+  }
+  #new-request-form .dvp-cnpj-field > .dvp-search {
+    flex: 1 0 100%;
+    margin-top: 10px;
+  }
 }
 .dvp-search,
 .dvp-clear,
@@ -6236,6 +6266,11 @@ zd-summary-block {
 .dvp-hint {
   color: #6e6e73;
   font-size: 13px;
+  line-height: 1.45;
+}
+.dvp-hint strong {
+  font-weight: 600;
+  color: #48484a;
 }
 .dvp-status:empty {
   display: none;

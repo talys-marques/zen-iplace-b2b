@@ -276,7 +276,28 @@ function isValidCnpj(value) {
   return cnpj.endsWith(`${d1}${d2}`);
 }
 
-const formatCnpj = (cnpj) => onlyDigits(cnpj).replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, "$1.$2.$3/$4-$5");
+// Máscara progressiva: "11222" -> "11.222", 14 dígitos -> "11.222.333/0001-81"
+function maskCnpj(value) {
+  const d = onlyDigits(value).slice(0, 14);
+  if (d.length <= 2) return d;
+  if (d.length <= 5) return `${d.slice(0, 2)}.${d.slice(2)}`;
+  if (d.length <= 8) return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5)}`;
+  if (d.length <= 12) return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8)}`;
+  return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8, 12)}-${d.slice(12)}`;
+}
+
+// Posição no texto formatado logo depois do n-ésimo dígito
+function caretAfterDigits(formatted, n) {
+  if (n <= 0) return 0;
+  let seen = 0;
+  for (let i = 0; i < formatted.length; i += 1) {
+    if (/\d/.test(formatted[i])) seen += 1;
+    if (seen === n) return i + 1;
+  }
+  return formatted.length;
+}
+
+const formatCnpj =(cnpj) => onlyDigits(cnpj).replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, "$1.$2.$3/$4-$5");
 
 // "2026-10-14" -> "14/10/2026" (sem passar por Date para evitar fuso)
 const isoToBr = (iso) => {
@@ -350,10 +371,8 @@ function buildPanel() {
   const panel = document.createElement("div");
   panel.className = "dvp";
   panel.innerHTML = `
-    <div class="dvp-actions">
-      <button type="button" class="dvp-search">Buscar pedidos</button>
-      <span class="dvp-hint">Informe o CNPJ e busque os pedidos para selecionar o produto da devolução.</span>
-    </div>
+    <button type="button" class="dvp-search">Buscar pedidos</button>
+    <div class="dvp-hint" id="dvp-cnpj-hint">Digite os 14 números do CNPJ e clique em <strong>Buscar pedidos</strong> para escolher o produto da devolução.</div>
     <div class="dvp-status" role="status" aria-live="polite"></div>
     <div class="dvp-results" hidden>
       <div class="dvp-results-head">
@@ -589,6 +608,50 @@ export function initDevolucaoPedidos({ container, requestForm, organizations }) 
       search();
     }
   });
+  // Máscara do CNPJ: aceita só dígitos (máx. 14) e formata enquanto digita,
+  // mantendo o cursor no lugar certo.
+  container.addEventListener("input", (event) => {
+    const input = getCnpjInput();
+    if (event.target !== input) return;
+    const formatted = maskCnpj(input.value);
+    if (formatted !== input.value) {
+      const caret = input.selectionStart ?? input.value.length;
+      const digitsBefore = onlyDigits(input.value.slice(0, caret)).length;
+      setReactValue(input, formatted);
+      const pos = caretAfterDigits(formatted, digitsBefore);
+      try {
+        input.setSelectionRange(pos, pos);
+      } catch (e) {
+        /* campo sem foco */
+      }
+    }
+    // CNPJ completo: valida na hora, sem esperar o clique em "Buscar".
+    const digits = onlyDigits(input.value);
+    if (digits.length === 14 && !isValidCnpj(digits)) {
+      setStatus("error", "CNPJ inválido. Confira os 14 dígitos.");
+    } else if (status.classList.contains("dvp-status--error") && state.lastCnpj === null) {
+      setStatus("", "");
+    }
+  });
+  // Colar: aproveita só os dígitos (ex.: "CNPJ: 11.222.333/0001-81").
+  container.addEventListener("paste", (event) => {
+    const input = getCnpjInput();
+    if (event.target !== input) return;
+    const text = (event.clipboardData || window.clipboardData).getData("text");
+    const pasted = onlyDigits(text);
+    if (!pasted) return;
+    event.preventDefault();
+    const start = input.selectionStart ?? input.value.length;
+    const end = input.selectionEnd ?? start;
+    const before = onlyDigits(input.value.slice(0, start));
+    const after = onlyDigits(input.value.slice(end));
+    const digits = (before + pasted + after).slice(0, 14);
+    const formatted = maskCnpj(digits);
+    setReactValue(input, formatted);
+    const pos = caretAfterDigits(formatted, Math.min(before.length + pasted.length, 14));
+    input.setSelectionRange(pos, pos);
+  });
+
   container.addEventListener("input", (event) => {
     if (event.target !== getCnpjInput() || state.lastCnpj === null) return;
     if (onlyDigits(event.target.value) !== state.lastCnpj) {
@@ -605,8 +668,45 @@ export function initDevolucaoPedidos({ container, requestForm, organizations }) 
     if (input) {
       const field = input.closest("[data-garden-id='forms.field']") || input.parentElement;
       if (field.nextElementSibling !== panel) field.after(panel);
+      // Botão "Buscar pedidos" na mesma linha do campo CNPJ
+      field.classList.add("dvp-cnpj-field");
+      if (input.nextElementSibling !== searchBtn) input.after(searchBtn);
+      decorateCnpj(input);
     }
+    decoratePlaceholders();
     attachments.refresh();
+  }
+
+  // Atributos do campo CNPJ (o React não controla esses atributos, mas
+  // reaplica a cada mudança caso ele recrie o campo).
+  function decorateCnpj(input) {
+    const attrs = {
+      maxlength: "18", // 14 dígitos + pontuação
+      placeholder: "00.000.000/0000-00",
+      inputmode: "numeric",
+      autocomplete: "off",
+      "aria-describedby": `${input.getAttribute("aria-describedby") || ""} dvp-cnpj-hint`.trim(),
+    };
+    Object.entries(attrs).forEach(([name, value]) => {
+      if (name === "aria-describedby" && (input.getAttribute(name) || "").includes("dvp-cnpj-hint")) return;
+      if (input.getAttribute(name) !== value) input.setAttribute(name, value);
+    });
+  }
+
+  // Campos preenchidos pelo card: placeholder explicando de onde vem o valor
+  function decoratePlaceholders() {
+    const form = getForm();
+    if (!form) return;
+    const placeholders = {
+      pedido: "Preenchido ao escolher um pedido",
+      nf: "Preenchido ao escolher um pedido",
+      dataNf: "Preenchida ao escolher um pedido",
+      sku: "Preenchido ao escolher um pedido",
+    };
+    Object.keys(placeholders).forEach((key) => {
+      const el = ids[key] && findInput(form, ids[key]);
+      if (el && el.getAttribute("placeholder") !== placeholders[key]) el.setAttribute("placeholder", placeholders[key]);
+    });
   }
   const attachments = setupRequiredAttachments({ container, requestForm, getForm });
   new MutationObserver(mount).observe(container, { childList: true, subtree: true });
