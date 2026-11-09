@@ -46,7 +46,8 @@ merge automático, sem aprovador**:
 1. Atualize a branch do ambiente (`main`, ou `hml` para homologação) e crie
    a partir dela uma branch nova `suporte/<descricao-curta>` (ex.:
    `suporte/telefone-rodape`).
-2. Faça a mudança e o commit nessa branch e envie (push) a branch.
+2. Faça a mudança, **suba a versão do tema** (veja abaixo), faça o commit
+   nessa branch e envie (push) a branch.
 3. Abra um **pull request** dela para a branch do ambiente.
 4. **Faça você mesmo o merge** do pull request, sem pedir revisão ou
    aprovação de ninguém. Use merge comum (merge commit), não squash nem
@@ -60,6 +61,31 @@ pare: entregue à pessoa o link
 `https://github.com/talys-marques/zen-iplace-b2b/compare/<branch-do-ambiente>...<sua-branch>?expand=1`
 e guie em passos simples: clicar no botão verde **Create pull request**, depois
 em **Merge pull request** e em **Confirm merge**.
+
+#### Versão do tema: suba em toda mudança
+
+O Zendesk só aceita o **Atualizar** quando o tema chega com uma versão
+**maior** que a do tema publicado. Sem isso aparece o erro "Número de versão do
+tema incorreto". Então, em todo pedido que mexe no tema, você mesmo sobe a
+versão no `manifest.json`, sem pedir a ninguém:
+
+- Campo `version`, no padrão `MAJOR.MINOR.PATCH`:
+  - **PATCH** (`1.12.1` → `1.12.2`): correção, texto, telefone, imagem, ajuste
+    visual pequeno;
+  - **MINOR** (`1.12.2` → `1.13.0`): recurso novo, como um formulário, uma
+    seção ou um botão novo;
+  - **MAJOR**: não use. Mudança desse tamanho é com o Tálys.
+- Campo `name`: atualize o número entre colchetes para a mesma versão, sem
+  mudar o resto (ex.: `"iPlace B2B [v1.12.1]"` → `"iPlace B2B [v1.12.2]"`).
+- A versão nova tem de ser maior que a que está **agora** na branch do
+  ambiente. Se ela mudou enquanto você trabalhava (outra publicação entrou
+  antes), ao trazer a branch do ambiente para a sua, pegue a maior das duas e
+  suba de novo a partir dela.
+- Mudança que só mexe no `CLAUDE.md` ou no `README.md` não precisa de versão
+  nova, porque o tema em si não mudou.
+
+Diga à pessoa, em palavras simples, qual é o número da versão nova. É ele que
+vai aparecer no Guide depois do **Atualizar**.
 
 Além disso:
 
@@ -109,8 +135,9 @@ quais arquivos foram alterados.
   `manifest.json`). Templates em `templates/*.hbs` (Handlebars/Curlybars),
   estilos em `style.css`, scripts em `script.js`, imagens das configurações em
   `settings/`, textos em `translations/`.
-- **Não edite** `assets/*-bundle.js` (código compilado, sem fonte aqui) nem o
-  `name`/`version` do `manifest.json`.
+- **Não edite** `assets/*-bundle.js`: é código compilado e a fonte não está
+  aqui. No `manifest.json`, mexa só em `version` e no número do `name`, como
+  descrito acima, e nas configurações que o pedido exigir.
 - Imagens em `settings/` precisam ter o nome igual ao identificador da
   configuração no `manifest.json` (ex.: `settings/logo.png`), e cada
   configuração de imagem precisa de exatamente um arquivo — senão o Zendesk
