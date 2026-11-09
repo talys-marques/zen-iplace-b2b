@@ -1,7 +1,7 @@
 {
-  "name": "iPlace B2B [v1.15.0]",
+  "name": "iPlace B2B [v1.15.1]",
   "author": "Zendesk",
-  "version": "1.15.0",
+  "version": "1.15.1",
   "api_version": 4,
   "default_locale": "en-us",
   "settings": [

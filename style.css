@@ -5483,6 +5483,10 @@ zd-summary-block {
   flex-direction: column;
   gap: 24px;
 }
+/* The card also has the theme's .form class, capped at 650px */
+.request-form-layout .request-form-card {
+  max-width: none;
+}
 @media (min-width: 1024px) {
   .request-form-layout {
     flex-direction: row;
