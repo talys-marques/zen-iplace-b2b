@@ -1,7 +1,7 @@
-# iPlace B2B [v1.17.0]
+# iPlace B2B [v1.18.0]
 
 Tema do Help Center gerado automaticamente pelo `build.py` do projeto de temas
-Zendesk, a partir de `cores/prd-b2b/` (v1.17.0) + `brands/iplaceb2b/`.
+Zendesk, a partir de `cores/prd-b2b/` (v1.18.0) + `brands/iplaceb2b/`.
 
 **Mudanças aqui só por pull request**, nunca direto na branch do ambiente.
 O publish substitui o conteúdo inteiro, mas se recusa a rodar enquanto houver

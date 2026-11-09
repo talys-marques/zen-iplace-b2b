@@ -6032,6 +6032,96 @@ zd-summary-block {
   display: none;
 }
 
+/***** Homepage — hero (B2B) *****/
+/* Replaces the homepage_background_image setting: a light brand gradient plus
+   an illustration shipped as a theme asset (assets/hero-b2b-art.svg), so a
+   theme "Atualizar" in Guide brings it along (image settings are kept as
+   they were). The text is HTML, aligned with the page container; the
+   illustration sits at the container's right edge and is hidden on phones. */
+.hero.hero-b2b {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  height: 240px;
+  padding: 0;
+  text-align: left;
+  background-color: #eef4fe;
+  background-image:
+    url($assets-hero-b2b-art-svg),
+    linear-gradient(120deg, #f7faff 0%, #e6effc 100%);
+  background-repeat: no-repeat;
+  background-size: auto 100%, cover;
+  /* Right edge of the art = right edge of the container: min(580px, 45vw)
+     from the page centre (1160px max, 90% wide or 5% padding each side).
+     The art is 480px wide at 240px tall, so its centre sits 240px before. */
+  background-position: calc(50% + min(340px, 45vw - 240px)) center, center;
+}
+.hero-b2b-inner {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 5%;
+}
+@media (min-width: 1160px) {
+  .hero-b2b-inner {
+    width: 90%;
+    padding: 0;
+  }
+}
+.hero-b2b-eyebrow {
+  margin: 0 0 6px;
+  color: var(--brand-highlight);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.hero-b2b-title {
+  max-width: 520px;
+  margin: 0 0 10px;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.15;
+}
+.hero-b2b-text {
+  max-width: 440px;
+  margin: 0;
+  color: #4b5563;
+  font-size: 16px;
+  line-height: 1.5;
+}
+/* 1024–1199px: art against the right edge, text kept to the left half */
+@media (max-width: 1199px) {
+  .hero.hero-b2b {
+    background-position: right center, center;
+  }
+  .hero-b2b-title,
+  .hero-b2b-text {
+    max-width: 50%;
+  }
+}
+/* Below 1024px there is no room for the art: gradient only */
+@media (max-width: 1023px) {
+  .hero.hero-b2b {
+    background-image: linear-gradient(120deg, #f7faff 0%, #e6effc 100%);
+    background-size: cover;
+    background-position: center;
+  }
+  .hero-b2b-title,
+  .hero-b2b-text {
+    max-width: none;
+  }
+}
+@media (max-width: 767px) {
+  .hero.hero-b2b {
+    height: auto;
+    padding: 36px 0;
+  }
+  .hero-b2b-title {
+    font-size: 26px;
+  }
+}
+
 /***** Homepage — request shortcuts (B2B) *****/
 /* Two cards above the categories, reusing the .blocks-list/.blocks-item look
    of the category cards; flex: 1 0 340px puts them side by side at 50% each
