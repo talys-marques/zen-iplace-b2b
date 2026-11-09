@@ -6370,7 +6370,11 @@ zd-summary-block {
   --request-border: #e6e2da;
   --request-muted: #6b7280;
 }
-.request-page .request-breadcrumbs {
+/* Tighter gap between the breadcrumb/search row and the page content on the
+   request pages (the theme's .sub-nav leaves 55px) */
+.request-page .sub-nav,
+.request-form-page .sub-nav,
+.requests-page .sub-nav {
   margin-bottom: 24px;
 }
 
