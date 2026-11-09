@@ -6448,6 +6448,23 @@ zd-summary-block {
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
+/* Valor da compra: linha inteira, total em destaque e valor unitário abaixo */
+.dvp-card-meta .dvp-card-total {
+  grid-column: 1 / -1;
+  padding-top: 8px;
+  border-top: 1px dashed #ece8e1;
+}
+.dvp-card-total dd {
+  font-size: 14px;
+  font-weight: 600;
+}
+.dvp-card-total small {
+  display: block;
+  margin-top: 1px;
+  font-size: 11px;
+  font-weight: 400;
+  color: #6e6e73;
+}
 
 /* Loading skeleton */
 .dvp-card--skeleton {
