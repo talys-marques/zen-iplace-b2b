@@ -22,6 +22,7 @@
 
 <script type="module">
   import { renderNewRequestForm } from "new-request-form";
+  import { initDevolucaoPedidos } from "devolucao-pedidos";
 
   const container = document.getElementById("new-request-form");
 
@@ -58,4 +59,12 @@
   };
 
   renderNewRequestForm(settings, props, container);
+
+  // Devolução B2B: busca de pedidos por CNPJ + carrossel que preenche os
+  // campos do pedido. Só ativa em formulários que têm um campo "CNPJ".
+  initDevolucaoPedidos({
+    container,
+    requestForm: props.requestForm,
+    organizations: props.organizations,
+  });
 </script>
