@@ -107,6 +107,122 @@ const MOCK_DB = {
       },
     ],
   },
+
+  // ---- Empresas fictícias para a simulação em HML ----
+  // Cadastrar no Zendesk uma organização com o mesmo nome para cada uma,
+  // vinculando os usuários de teste (o assunto usa o nome da organização).
+  "28471935000175": {
+    razao_social: "Atlântica Tecnologia Corporativa Ltda",
+    pedidos: [
+      {
+        numero_pedido: "B2B-210341",
+        nf_numero: "000301122",
+        nf_data: "2026-09-18",
+        itens: [
+          { sku: "MBP14-M4P-512-PRT", descricao: "MacBook Pro 14\" M4 Pro 512GB Preto-espacial", quantidade: 12, valor_unitario: 18999.0 },
+          { sku: "STUDIO-DISPLAY-27", descricao: "Studio Display 27\" vidro padrão", quantidade: 12, valor_unitario: 12499.0 },
+        ],
+      },
+      {
+        numero_pedido: "B2B-211087",
+        nf_numero: "000302410",
+        nf_data: "2026-10-27",
+        itens: [
+          { sku: "MAGIC-MOUSE-USBC-BCO", descricao: "Magic Mouse USB-C Branco", quantidade: 20, valor_unitario: 899.0 },
+        ],
+      },
+    ],
+  },
+  "51983027000182": {
+    razao_social: "Nova Rota Logística S.A.",
+    pedidos: [
+      {
+        numero_pedido: "B2B-208764",
+        nf_numero: "000298875",
+        nf_data: "2026-08-29",
+        itens: [
+          { sku: "IPH16E-128-BCO", descricao: "iPhone 16e 128GB Branco", quantidade: 60, valor_unitario: 4599.0 },
+        ],
+      },
+      {
+        numero_pedido: "B2B-210955",
+        nf_numero: "000302088",
+        nf_data: "2026-10-21",
+        itens: [
+          { sku: "IPAD-A16-128-AZL", descricao: "iPad (A16) 128GB Azul", quantidade: 35, valor_unitario: 3999.0 },
+          { sku: "CAPA-SMARTFOLIO-IPAD", descricao: "Capa Smart Folio para iPad Azul-céu", quantidade: 35, valor_unitario: 699.0 },
+        ],
+      },
+      {
+        numero_pedido: "B2B-211402",
+        nf_numero: "000303016",
+        nf_data: "2026-11-04",
+        itens: [
+          { sku: "CABO-USBC-1M", descricao: "Cabo de carregamento USB-C (1 m)", quantidade: 100, valor_unitario: 229.0 },
+        ],
+      },
+    ],
+  },
+  "73620458000117": {
+    razao_social: "Instituto Educacional Saber Mais Ltda",
+    pedidos: [
+      {
+        numero_pedido: "B2B-209630",
+        nf_numero: "000300154",
+        nf_data: "2026-09-08",
+        itens: [
+          { sku: "MBA13-M4-256-PRT", descricao: "MacBook Air 13\" M4 256GB Prateado", quantidade: 30, valor_unitario: 9999.0 },
+          { sku: "ADAPT-USBC-35W-DUO", descricao: "Adaptador de energia USB-C duplo de 35 W", quantidade: 30, valor_unitario: 649.0 },
+        ],
+      },
+    ],
+  },
+  "40295816000104": {
+    razao_social: "Clínica Vida Plena Serviços Médicos Ltda",
+    pedidos: [
+      {
+        numero_pedido: "B2B-210118",
+        nf_numero: "000301563",
+        nf_data: "2026-09-30",
+        itens: [
+          { sku: "IPAD-AIR13-M3-256-CZE", descricao: "iPad Air 13\" M3 256GB Cinza-espacial", quantidade: 15, valor_unitario: 9299.0 },
+          { sku: "APNCL-PRO", descricao: "Apple Pencil Pro", quantidade: 15, valor_unitario: 1199.0 },
+        ],
+      },
+      {
+        numero_pedido: "B2B-211230",
+        nf_numero: "000302755",
+        nf_data: "2026-10-31",
+        itens: [
+          { sku: "IPH16PRO-256-NAT", descricao: "iPhone 16 Pro 256GB Titânio natural", quantidade: 8, valor_unitario: 10499.0 },
+        ],
+      },
+    ],
+  },
+  "61384729000101": {
+    razao_social: "Pampa Agro Insumos Ltda",
+    pedidos: [
+      {
+        numero_pedido: "B2B-209211",
+        nf_numero: "000299630",
+        nf_data: "2026-09-02",
+        itens: [
+          { sku: "IMAC24-M4-256-AZL", descricao: "iMac 24\" M4 256GB Azul", quantidade: 6, valor_unitario: 14999.0 },
+        ],
+      },
+      {
+        numero_pedido: "B2B-210702",
+        nf_numero: "000301990",
+        nf_data: "2026-10-15",
+        itens: [
+          { sku: "WATCH-S10-46-PRT", descricao: "Apple Watch Series 10 GPS 46 mm Preto-brilhante", quantidade: 10, valor_unitario: 4999.0 },
+          { sku: "AIRTAG-4PACK", descricao: "AirTag (pacote com 4)", quantidade: 10, valor_unitario: 999.0 },
+        ],
+      },
+    ],
+  },
+  // ----------------------------------------------------
+
   // CNPJ válido, sem pedidos -> estado vazio
   "77888999000181": { razao_social: "Comercial Sem Pedidos Ltda", pedidos: [] },
 };
