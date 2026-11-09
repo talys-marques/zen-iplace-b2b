@@ -1,5 +1,5 @@
 <div class="container-divider"></div>
-<div class="container">
+<div class="container request-form-page">
   <div class="sub-nav">
     {{breadcrumbs}}
     <div class="search-container">
@@ -12,11 +12,39 @@
   </div>
 
   <header class="page-header request-form-header">
-    <h1>{{t 'submit_a_request'}}</h1>
+    <h1>Abrir solicitação</h1>
+    <p class="request-form-subtitle">
+      Preencha os dados abaixo. As respostas da equipe chegam em
+      <a href="{{page_path 'requests'}}">Minhas solicitações</a>.
+    </p>
   </header>
 
-  <div id="main-content" class="form request-form-card">
-    <div id="new-request-form"></div>
+  <div class="request-form-layout">
+    <div id="main-content" class="form request-form-card">
+      <div id="new-request-form"></div>
+    </div>
+
+    <aside class="request-form-aside" aria-label="Dicas para a solicitação">
+      <section class="request-form-box request-form-tips">
+        <h2>Antes de enviar</h2>
+        <ol class="request-form-steps">
+          <li>Preencha os campos obrigatórios, marcados com <strong>*</strong>.</li>
+          <li>Em devoluções, informe o <strong>CNPJ</strong> e use <strong>Buscar pedidos</strong>: ao escolher o produto, os dados do pedido e da nota são preenchidos sozinhos.</li>
+          <li>Anexe as fotos do produto: em devoluções são pelo menos <strong>4 imagens</strong>.</li>
+        </ol>
+      </section>
+
+      <section class="request-form-box">
+        <h2>Depois de enviar</h2>
+        <p>Acompanhe o andamento e responda à equipe em <a href="{{page_path 'requests'}}">Minhas solicitações</a>.</p>
+        {{#if settings.footer_whatsapp_subtitle}}
+          <p class="request-form-contact">
+            Dúvidas? WhatsApp
+            <a href="{{settings.footer_whatsapp_url}}" target="_blank" rel="noopener">{{settings.footer_whatsapp_subtitle}}</a>
+          </p>
+        {{/if}}
+      </section>
+    </aside>
   </div>
 </div>
 

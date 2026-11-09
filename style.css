@@ -5449,21 +5449,153 @@ zd-summary-block {
 /* The form is rendered by Zendesk's Garden bundle; we target its stable
    [data-garden-id] hooks, scoped under #new-request-form to win specificity. */
 
-/* Page header + card wrapper */
+/* Page header + card wrapper. .page-header turns into a row on desktop;
+   keep the title and the subtitle stacked here. */
+.page-header.request-form-header {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
 .request-form-header {
-  max-width: 650px;
-  margin: 0 0 22px;
-  padding-bottom: 18px;
+  margin: 0 0 28px;
+  padding-bottom: 20px;
   border-bottom: 1px solid #e6e2da;
 }
 .request-form-header h1 {
+  margin: 0 0 6px;
+}
+.request-form-subtitle {
   margin: 0;
+  color: #6b7280;
+  font-size: 15px;
 }
 .request-form-card {
+  box-sizing: border-box;
   border: 1px solid #e6e2da;
   border-radius: 12px;
-  padding: 30px 30px 12px;
+  padding: 32px 32px 16px;
   background: #fff;
+}
+
+/* B2B layout: wide form card + tips column (stacks below on smaller screens) */
+.request-form-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+@media (min-width: 1024px) {
+  .request-form-layout {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 30px;
+  }
+  .request-form-layout .request-form-card {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .request-form-aside {
+    flex: 0 0 320px;
+    position: sticky;
+    top: 20px;
+  }
+}
+@media (max-width: 767px) {
+  .request-form-card {
+    padding: 20px 16px 8px;
+  }
+}
+.request-form-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.request-form-box {
+  box-sizing: border-box;
+  padding: 20px 24px;
+  border: 1px solid #e6e2da;
+  border-radius: 12px;
+  background: #fff;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.request-form-box h2 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+}
+.request-form-box p {
+  margin: 0 0 8px;
+}
+.request-form-box p:last-child {
+  margin-bottom: 0;
+}
+.request-form-tips {
+  background: #eef4fe;
+  border-color: #d6e6fb;
+}
+.request-form-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: request-step;
+}
+.request-form-steps li {
+  position: relative;
+  margin: 0 0 12px;
+  padding-left: 34px;
+  counter-increment: request-step;
+}
+.request-form-steps li:last-child {
+  margin-bottom: 0;
+}
+.request-form-steps li::before {
+  content: counter(request-step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--brand-highlight);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 22px;
+  text-align: center;
+}
+.request-form-contact {
+  color: #6b7280;
+}
+
+/* Short fields side by side (tablet and up). Single-line inputs and
+   dropdowns take half the width; subject, description, attachments, form and
+   organization pickers, and the CNPJ field when the "Buscar pedidos" panel
+   (.dvp) follows it stay full width. Row spacing still comes from each
+   field's own margin, which the .dvp panel's negative margin relies on. */
+@media (min-width: 768px) {
+  #new-request-form form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 20px;
+  }
+  #new-request-form form > * {
+    grid-column: 1 / -1;
+  }
+  #new-request-form form > [data-garden-id="forms.field"]:has(input[data-garden-id="forms.input"]):not(:has([name="request[subject]"])):not(:has(input[type=file])):not(:has(+ .dvp)),
+  #new-request-form form > [data-garden-id="dropdowns.combobox.field"]:not(:has([name="request[ticket_form_id]"])):not(:has([name="request[organization_id]"])) {
+    grid-column: auto;
+  }
+  /* Side-by-side fields with and without a hint: keep the boxes aligned by
+     pushing the input (or dropdown) to the bottom of the grid cell */
+  #new-request-form form > [data-garden-id="forms.field"],
+  #new-request-form form > [data-garden-id="dropdowns.combobox.field"] {
+    display: flex;
+    flex-direction: column;
+  }
+  #new-request-form form > [data-garden-id="forms.field"] > input[data-garden-id="forms.input"],
+  #new-request-form form > [data-garden-id="dropdowns.combobox.field"] > [data-garden-id="dropdowns.combobox"] {
+    margin-top: auto;
+  }
 }
 
 /* Field rhythm */
