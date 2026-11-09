@@ -698,10 +698,10 @@ export function initDevolucaoPedidos({ container, requestForm, organizations }) 
     const form = getForm();
     if (!form) return;
     const placeholders = {
-      pedido: "Preenchido ao escolher um pedido",
-      nf: "Preenchido ao escolher um pedido",
-      dataNf: "Preenchida ao escolher um pedido",
-      sku: "Preenchido ao escolher um pedido",
+      pedido: "Preenchido automaticamente",
+      nf: "Preenchido automaticamente",
+      dataNf: "Preenchida automaticamente",
+      sku: "Preenchido automaticamente ao escolher um pedido",
     };
     Object.keys(placeholders).forEach((key) => {
       const el = ids[key] && findInput(form, ids[key]);
